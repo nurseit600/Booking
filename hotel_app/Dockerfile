@@ -4,9 +4,10 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /hotel_app
 
-COPY requirements.txt /app/
+COPY req.txt /hotel_app/
+
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r req.txt
 
 COPY nginx/nginx.conf /etc/nginx/conf.d/
 

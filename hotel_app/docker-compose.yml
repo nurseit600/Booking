@@ -1,20 +1,22 @@
 version: '3'
 
 services:
-
   web:
     build: .
-    command: >
-      bash -c "uvicorn main:booking_app --host 0.0.0.0 --port 8000"
+    command: uvicorn main:booking_app --host 0.0.0.0 --port 8001
     volumes:
-      - .:/hotel_app
+      - .:/app
+      - /home/ubuntu/booking_app_FatsAPI/hotel_app/staticfiles:/app/static
+      - media_volume:/app/media
     ports:
-      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - db
+    environment:
+      DATABASE_URL : postgres://postgres:postgres@db:5432/postgres
 
   db:
-    image: postgres:latest
+    image: postgres:16
     restart: always
     environment:
       POSTGRES_DB: postgres
@@ -28,30 +30,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - static_volume:/app/static
+      - /home/ubuntu/booking_app_FatsAPI/hotel_app/staticfiles:/app/static
       - media_volume:/app/media
     depends_on:
       - web
 
 volumes:
   postgres_data:
-  static_volume:
   media_volume:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
